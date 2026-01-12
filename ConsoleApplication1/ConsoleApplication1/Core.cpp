@@ -1,5 +1,6 @@
 #include "Core.h"
 #include "Entity.h"
+#include "MeshRenderer.h"
 
 namespace ECS
 {
@@ -30,7 +31,7 @@ namespace ECS
 
 
 
-	void Core::Start()
+	void Core::Start(std::shared_ptr <ECS::Entity> PlayerEntity)
 	{
 		//initialise window and OpenGL context
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -87,10 +88,17 @@ namespace ECS
 		}
 		glEnable(GL_DEPTH_TEST);
 
+		auto meshRenderer = PlayerEntity->GetComponent<MeshRenderer>();
+		if (meshRenderer)
+		{
+			meshRenderer->OnLoadMesh("low-poly-rat/rattri.obj");
+		}
+
 		isRunning = true;
 		//main game loop
 		while (isRunning)
 		{
+
 			// Poll for SDL events (keyboard, mouse, window, etc.)
 			SDL_Event event;
 			while (SDL_PollEvent(&event))

@@ -22,19 +22,30 @@ void MeshRenderer::Draw()
 	//finally send matrices to shader then draw
 
 	//project relative path to mesh
-	std::string meshFile = "curuthers/curuthers.obj";
 
-	FILE* file = fopen(meshFile.c_str(), "r");
-	if (file)
+	if(!_mesh)
 	{
-		fclose(file);
-		OnLoadMesh(meshFile);
-	}
-	else
-	{
-		std::cerr << "ERROR: Could not find mesh file: " << meshFile << std::endl;
+		std::cerr << "ERROR: Could not find mesh file for MeshRenderer" << std::endl;
 		return;
 	}
+
+	if (!_material)
+	{
+		_material = std::make_unique<ECS::Material>();
+		const std::string vertPath = "shaders/basic.vert";
+		const std::string fragPath = "shaders/basic.frag";
+		if (!_material->LoadShaders(vertPath, fragPath))
+		{
+			std::cerr << "ERROR: Could not find material for MeshRenderer" << std::endl;
+			return;
+		}
+		_material->SetDiffuseColour(glm::vec3(0.8f, 0.8f, 0.8f));
+		_material->SetEmissiveColour(glm::vec3(0.0f));
+		_material->SetSpecularColour(glm::vec3(0.2f));
+	}
+
+	glm::mat4 modelMatrix = glm::mat4(1.0f); // Identity matrix as placeholder
+
 	if (_mesh)
 	{
 		_mesh->Draw();

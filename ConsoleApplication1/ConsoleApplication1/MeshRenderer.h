@@ -22,6 +22,11 @@ namespace ECS
 	public:
 		void OnLoadMesh(const std::string& filename);
 		void Draw();
+
+		virtual void OnDraw() override
+		{
+			Draw();
+		}
 	};
 
 }

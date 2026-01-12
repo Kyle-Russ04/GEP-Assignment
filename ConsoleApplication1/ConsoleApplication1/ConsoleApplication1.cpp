@@ -40,13 +40,9 @@ int main(int argc, char* argv[])
 	
 	//initialise resources ie. mesh and material
 	ECS::ResourceManager resourceManager;
-	
-	if (meshRenderer)
-	{
-		meshRenderer->OnLoadMesh("low-poly-rat/ rattri.fbx");
-	}
+
 	//start core loop
-	core->Start();
+	core->Start(PlayerEntity);
 
 	if (core->isRunning == false)
 	{
