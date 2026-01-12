@@ -17,7 +17,7 @@ namespace ECS
 	void Entity::Update(float deltaTime)
 	{
 		//update all components
-		for (Component* component : m_components)
+		for (std::shared_ptr<Component> component : m_components)
 		{
 			component->OnUpdate(deltaTime);
 		}
@@ -26,7 +26,7 @@ namespace ECS
 	void Entity::Draw()
 	{
 		//draw all components
-		for (Component* component : m_components)
+		for (std::shared_ptr<Component> component : m_components)
 		{
 			component->OnDraw();
 		}
@@ -41,7 +41,7 @@ namespace ECS
 	{
 		m_isAlive = false;
 		//notify components
-		for (Component* component : m_components)
+		for (std::shared_ptr<Component> component : m_components)
 		{
 			component->OnKill();
 			//m_isAlive = false;

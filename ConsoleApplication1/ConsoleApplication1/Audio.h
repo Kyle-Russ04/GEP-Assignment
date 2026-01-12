@@ -6,12 +6,8 @@ namespace ECS
 {
 	struct Audio
 	{
-		Audio()
-		{
-		}
-		~Audio()
-		{
-		}
+		Audio();
+		~Audio();
 
 		void Initialise();
 		void PlaySound(const char* filePath);

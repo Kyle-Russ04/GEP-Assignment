@@ -26,10 +26,12 @@ namespace ECS
 		bool ShouldQuit();
 
 		void Update(SDL_Event event);
+		int keycode;
 
 	private:
 		bool m_quitRequested = false;
 		Transform m_playerTransform;
+		
 	};
 
 }

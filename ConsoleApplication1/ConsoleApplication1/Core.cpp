@@ -102,7 +102,6 @@ namespace ECS
 			//check for quit
 			if (m_inputSystem.ShouldQuit())
 			{
-				std::cout << "HI" << std::endl;
 				Stop();
 			}
 
@@ -112,7 +111,6 @@ namespace ECS
 				entity->Update(0.0f); //placeholder deltaTime
 
 				entity->Draw();
-				//auto playerComp = entity->GetComponent<ECS::Player>();
 			}
 			// Clear the screen to black
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -163,4 +161,6 @@ namespace ECS
 
 		return true;
 	}
+
+
 }

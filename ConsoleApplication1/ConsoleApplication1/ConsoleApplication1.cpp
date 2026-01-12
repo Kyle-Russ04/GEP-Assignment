@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 	
 	if (meshRenderer)
 	{
-		meshRenderer->OnLoadMesh("curuthers/curuthers.obj");
+		meshRenderer->OnLoadMesh("low-poly-rat/ rattri.fbx");
 	}
 	//start core loop
 	core->Start();

@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "InputSystem.h"
+#include "Core.h"
+#include "Entity.h"
 #include <memory>
 
 namespace ECS

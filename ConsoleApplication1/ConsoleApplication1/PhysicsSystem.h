@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <cstdio>
+#include "GLM/glm.hpp"
+#include "Transform.h"
 
 namespace ECS
 {
@@ -16,7 +18,7 @@ namespace ECS
 		void Update(float deltaTime);
 
 	private:
-		std::vector<std::shared_ptr<SphereCollider> > m_colliders;
+		std::vector<std::shared_ptr<SphereCollider>> m_colliders;
 
 	};
 

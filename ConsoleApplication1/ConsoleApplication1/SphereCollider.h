@@ -17,6 +17,7 @@ namespace ECS
 		float _radius;
 		glm::vec3 _center;
 		glm::vec3 _offset;
+		glm::vec3 position;
 	};
 }
 

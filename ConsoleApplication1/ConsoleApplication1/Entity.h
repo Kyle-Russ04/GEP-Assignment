@@ -29,7 +29,7 @@ namespace ECS
 			//initialise component
 			rtn->OnInitialise();
 			//add to component list
-			m_components.push_back(rtn.get());
+			m_components.push_back(rtn);
 			//return component
 			return rtn;
 		}
@@ -52,7 +52,7 @@ namespace ECS
 		}
 
 		//data
-		std::vector<struct Component*> m_components;
+		std::vector<std::shared_ptr <Component>> m_components;
 		bool m_isAlive;
 
 		std::weak_ptr<Core> m_core;
@@ -72,7 +72,10 @@ namespace ECS
 		void Kill();
 		void IsAlive(bool _isAlive);
 
-		
+		std::shared_ptr<Core> GetCore()
+		{
+			return m_core.lock();
+		}
 	};
 
 }

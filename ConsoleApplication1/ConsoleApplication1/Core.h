@@ -24,6 +24,7 @@ namespace ECS
 		bool isRunning = true;
 		SDL_Window* m_window;
 		SDL_GLContext m_glcontext;
+		InputSystem m_inputSystem;
 
 		//functions:
 		Core();
@@ -36,11 +37,12 @@ namespace ECS
 		void Stop();
 
 		std::shared_ptr<Entity> AddEntity();
+		std::shared_ptr<InputSystem> GetInputSystem()
+		{
+			return std::make_shared<InputSystem>(m_inputSystem);
+		}
 
 		bool InitGL();
-
-		InputSystem m_inputSystem;
-		
 	};
 
 }
