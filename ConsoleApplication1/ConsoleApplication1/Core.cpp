@@ -113,6 +113,10 @@ namespace ECS
 				Stop();
 			}
 
+			// Clear the screen to black
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 			////update entities
 			for (Entity* entity : m_entities)
 			{
@@ -120,9 +124,7 @@ namespace ECS
 
 				entity->Draw();
 			}
-			// Clear the screen to black
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
 			// Swap the buffers to display the current rendered frame
 			SDL_GL_SwapWindow(m_window);
 		}

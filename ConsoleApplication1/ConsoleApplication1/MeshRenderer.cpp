@@ -1,4 +1,9 @@
 #include "MeshRenderer.h"
+#include "Transform.h"
+#include "Entity.h"
+#include "Core.h"
+#include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace ECS;
 
@@ -13,7 +18,6 @@ void MeshRenderer::OnLoadMesh(const std::string& filename)
 void MeshRenderer::Draw()
 {
 	// MeshRenderer-specific draw logic
-	std::cout << "Drawing Mesh Renderer Component" << std::endl;
 	//This needs:
 	//The model matrix from the transform component
 	//add methods in Entity to query other components
@@ -23,7 +27,7 @@ void MeshRenderer::Draw()
 
 	//project relative path to mesh
 
-	if(!_mesh)
+	if (!_mesh)
 	{
 		std::cerr << "ERROR: Could not find mesh file for MeshRenderer" << std::endl;
 		return;
@@ -32,8 +36,8 @@ void MeshRenderer::Draw()
 	if (!_material)
 	{
 		_material = std::make_unique<ECS::Material>();
-		const std::string vertPath = "shaders/basic.vert";
-		const std::string fragPath = "shaders/basic.frag";
+		const std::string vertPath = "Shaders/vertex.txt";
+		const std::string fragPath = "Shaders/fragment.txt";
 		if (!_material->LoadShaders(vertPath, fragPath))
 		{
 			std::cerr << "ERROR: Could not find material for MeshRenderer" << std::endl;
@@ -45,6 +49,52 @@ void MeshRenderer::Draw()
 	}
 
 	glm::mat4 modelMatrix = glm::mat4(1.0f); // Identity matrix as placeholder
+
+
+	// Build model matrix from Transform component if present
+	glm::mat4 modelMat = glm::mat4(1.0f);
+	if (auto ent = GetEntity())
+	{
+		auto transform = ent->GetComponent<Transform>();
+		if (transform)
+		{
+			// Transform currently exposes position only; use it if available
+			glm::vec3 pos = transform->GetPosition();
+			modelMat = glm::translate(glm::mat4(1.0f), pos);
+			// TODO: incorporate rotation/scale when Transform exposes them
+		}
+	}
+
+	// Inverse model matrix
+	glm::mat4 invModel = glm::inverse(modelMat);
+
+	// Build view and projection (fallbacks if no camera system is present)
+	glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f),   // eye
+		glm::vec3(0.0f, 0.0f, 0.0f),   // center
+		glm::vec3(0.0f, 1.0f, 0.0f));  // up
+
+	glm::mat4 projMat = glm::mat4(1.0f);
+	// attempt to get window aspect from Core if possible
+	float aspect = 1.0f;
+	if (auto ent = GetEntity())
+	{
+		if (auto core = ent->GetCore())
+		{
+			SDL_Window* window = core->m_window;
+			if (window)
+			{
+				int w = 1, h = 1;
+				SDL_GetWindowSize(window, &w, &h);
+				if (h != 0) aspect = static_cast<float>(w) / static_cast<float>(h);
+			}
+		}
+	}
+	projMat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+
+	// Send matrices to material and activate shader + textures
+	_material->SetMatrices(modelMat, invModel, viewMat, projMat);
+	_material->Apply();
+
 
 	if (_mesh)
 	{

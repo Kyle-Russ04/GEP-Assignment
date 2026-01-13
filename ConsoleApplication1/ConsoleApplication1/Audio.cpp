@@ -11,7 +11,20 @@ Audio::~Audio()
 
 }
 
-void Audio::PlaySound(const char* filePath)
+void Audio::InitialiseInstance()
 {
 
+}
+
+void Audio::PlaySound(const std::string filePath)
+{
+
+}
+
+void Audio::StopSound(const std::string filePath)
+{
+}
+
+void Audio::PauseSound(const std::string filePath)
+{
 }
