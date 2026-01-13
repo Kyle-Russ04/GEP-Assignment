@@ -1,6 +1,8 @@
 #include "Core.h"
 #include "Entity.h"
 #include "MeshRenderer.h"
+#include "Audio.h"
+#include "HUD.h"
 
 namespace ECS
 {
@@ -31,7 +33,7 @@ namespace ECS
 
 
 
-	void Core::Start(std::shared_ptr <ECS::Entity> PlayerEntity)
+	void Core::Start(std::shared_ptr <ECS::Entity> PlayerEntity, std::shared_ptr <ECS::Entity> AudioEntity)
 	{
 		//initialise window and OpenGL context
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -94,6 +96,19 @@ namespace ECS
 			meshRenderer->OnLoadMesh("low-poly-rat/rattri.obj");
 		}
 
+		auto audioComp = AudioEntity->GetComponent<Audio>();
+		if (audioComp)
+		{
+			audioComp->InitialiseInstance();
+			audioComp->PlaySound("");
+		}
+		auto playerHud = PlayerEntity->GetComponent<HUD>();
+		if (playerHud)
+		{
+			playerHud->renderer = renderer;
+			playerHud->Initialise();
+		}
+
 		isRunning = true;
 		//main game loop
 		while (isRunning)
@@ -116,6 +131,9 @@ namespace ECS
 			// Clear the screen to black
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			playerHud->DisplayScore();
+
 
 			////update entities
 			for (Entity* entity : m_entities)

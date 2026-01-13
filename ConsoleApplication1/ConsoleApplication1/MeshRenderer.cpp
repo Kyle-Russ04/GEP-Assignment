@@ -36,7 +36,7 @@ void MeshRenderer::Draw()
 	if (!_material)
 	{
 		_material = std::make_unique<ECS::Material>();
-		const std::string vertPath = "Shaders/vertex.txt";
+		const std::string vertPath = "Shaders/ShaderText.txt";
 		const std::string fragPath = "Shaders/fragment.txt";
 		if (!_material->LoadShaders(vertPath, fragPath))
 		{

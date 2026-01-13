@@ -55,6 +55,12 @@
     <Filter Include="Source Files\GEP ECS\Systems\Physics">
       <UniqueIdentifier>{9d6ee3ac-37f8-4f2c-8b30-b29fd9edbb7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GEP ECS\Systens\Audio">
+      <UniqueIdentifier>{4311d6eb-c074-4f0f-ae13-cb025615d6ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GEP ECS\Systems\Audio">
+      <UniqueIdentifier>{45243b68-e635-474a-a501-5697180af63b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication1.cpp">
@@ -105,8 +111,14 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\GEP ECS\Systems\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Audio.cpp">
+    <ClCompile Include="HUD.cpp">
       <Filter>Source Files\GEP ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Source Files\GEP ECS\Systems\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>Source Files\GEP ECS\Systems\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +170,14 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files\GEP ECS\Systens\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
+    <ClInclude Include="HUD.h">
       <Filter>Header Files\GEP ECS\Systens</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioComponent.h">
+      <Filter>Header Files\GEP ECS\Systens\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files\GEP ECS\Systens\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,5 +187,13 @@
     <None Include="fragment.txt">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="FragmentText.txt">
+      <Filter>Resource Files\Shaders</Filter>
+    </Text>
+    <Text Include="ShaderText.txt">
+      <Filter>Resource Files\Shaders</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -27,28 +27,41 @@
 #include "Transform.h"
 #include "SphereCollider.h"
 #include "MeshRenderer.h"
+#include "Audio.h"
+#include "AudioComponent.h"
+#include "HUD.h"
 
 int main(int argc, char* argv[])
 {
 	std::shared_ptr<ECS::Core> core = ECS::Core::Initialise();
+
+	//entity 1 - player
 	std::shared_ptr<ECS::Entity> PlayerEntity = core->AddEntity();
     std::shared_ptr<ECS::Component> component = PlayerEntity->AddComponent<ECS::Player>();
 	std::shared_ptr<ECS::Component> meshComp = PlayerEntity->AddComponent<ECS::MeshRenderer>();
 	std::shared_ptr<ECS::Component> transformComp = PlayerEntity->AddComponent<ECS::Transform>();
 	std::shared_ptr<ECS::Component> colliderComp = PlayerEntity->AddComponent<ECS::SphereCollider>();
+	std::shared_ptr<ECS::Component> audioComp = PlayerEntity->AddComponent<ECS::AudioComponent>();
+	std::shared_ptr<ECS::Component> HUD = PlayerEntity->AddComponent<ECS::HUD>();
+
 	auto meshRenderer = std::dynamic_pointer_cast<ECS::MeshRenderer>(meshComp);
+
+	//entity 2 - background music
+	std::shared_ptr<ECS::Entity> AudioEntity = core->AddEntity();
+	std::shared_ptr<ECS::Component> audioCompBackground = AudioEntity->AddComponent<ECS::Audio>();
+
+
 	
 	//initialise resources ie. mesh and material
 	ECS::ResourceManager resourceManager;
 
 	//start core loop
-	core->Start(PlayerEntity);
+	core->Start(PlayerEntity, AudioEntity);
 
 	if (core->isRunning == false)
 	{
 		core->Stop();
 	}
 
-	//meshComp->Draw();
     return 0;
 }
