@@ -12,9 +12,6 @@ namespace ECS
 	//this is for sound effects
 	struct AudioComponent : Component
 	{
-		AudioComponent();
-		~AudioComponent();
-
 		void InitialiseInstance();
 		void PlaySound(const std::string filePath);
 		void StopSound(const std::string filePath);

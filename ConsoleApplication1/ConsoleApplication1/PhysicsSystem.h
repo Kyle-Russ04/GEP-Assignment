@@ -12,9 +12,6 @@ namespace ECS
 
 	class PhysicsSystem
 	{
-		PhysicsSystem();
-		~PhysicsSystem();
-
 		void Update(float deltaTime);
 
 	private:

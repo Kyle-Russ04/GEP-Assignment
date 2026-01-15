@@ -2,14 +2,6 @@
 
 using namespace ECS;
 
-Audio::Audio()
-{
-
-}
-Audio::~Audio()
-{
-
-}
 
 void Audio::InitialiseInstance(const std::string filepath)
 {

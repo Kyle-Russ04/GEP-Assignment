@@ -19,16 +19,6 @@ namespace ECS
 	struct HUD : Component
 	{
 	public:
-		/*void Initialise();
-		void DisplayScore();
-
-		SDL_Surface* m_text;
-		TTF_Font* font;
-		SDL_Texture* texture;
-		SDL_Renderer* renderer;
-		
-		SDL_Color colour = { 255,255,255 };
-		bool hasInitialized{ false };*/
 
 		void Load_Font();
 		void Render_Text(std::string text, float x, float y, float scale, glm::vec3 color);

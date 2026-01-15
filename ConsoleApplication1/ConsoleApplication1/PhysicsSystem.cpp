@@ -4,13 +4,6 @@
 
 using namespace ECS;
 
-PhysicsSystem::PhysicsSystem()
-{
-}
-
-PhysicsSystem::~PhysicsSystem()
-{
-}
 
 void PhysicsSystem::Update(float deltaTime)
 {

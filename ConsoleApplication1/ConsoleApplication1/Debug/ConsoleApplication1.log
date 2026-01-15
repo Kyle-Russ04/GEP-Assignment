@@ -1,0 +1,50 @@
+﻿  Audio.cpp
+  AudioComponent.cpp
+  Camera.cpp
+  Component.cpp
+  ConsoleApplication1.cpp
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\HUD.h(5,10): error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  (compiling source file 'ConsoleApplication1.cpp')
+  
+  Core.cpp
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\HUD.h(5,10): error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  (compiling source file 'Core.cpp')
+  
+  Entity.cpp
+  HUD.cpp
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\HUD.h(5,10): error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  (compiling source file 'HUD.cpp')
+  
+  InputSystem.cpp
+  Material.cpp
+  Mesh.cpp
+  MeshRenderer.cpp
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Entity.h(43,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'MeshRenderer.cpp')
+      D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Entity.h(43,22):
+      the template instantiation context (the oldest one first) is
+          D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\MeshRenderer.cpp(64,23):
+          see reference to function template instantiation 'std::shared_ptr<ECS::Transform> ECS::Entity::GetComponent<ECS::Transform>(void)' being compiled
+  
+  PhysicsSystem.cpp
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Entity.h(43,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'PhysicsSystem.cpp')
+      D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Entity.h(43,22):
+      the template instantiation context (the oldest one first) is
+          D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\PhysicsSystem.cpp(39,54):
+          see reference to function template instantiation 'std::shared_ptr<ECS::Transform> ECS::Entity::GetComponent<ECS::Transform>(void)' being compiled
+  
+  Player.cpp
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Entity.h(43,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'Player.cpp')
+      D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Entity.h(43,22):
+      the template instantiation context (the oldest one first) is
+          D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\Player.cpp(11,58):
+          see reference to function template instantiation 'std::shared_ptr<ECS::Transform> ECS::Entity::GetComponent<ECS::Transform>(void)' being compiled
+  
+  Resource.cpp
+  ResourceManager.cpp
+  SphereCollider.cpp
+  Transform.cpp
+  Generating Code...
+D:\s5606219\GEP-Assignment\ConsoleApplication1\ConsoleApplication1\SphereCollider.cpp(109,1): warning C4715: 'ECS::SphereCollider::CollidingAABB': not all control paths return a value

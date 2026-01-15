@@ -43,7 +43,7 @@ glm::vec3 SphereCollider::GetCenter()
 	return _center + _offset; 
 }
 
-bool SphereCollider::CollidingAABB(const glm::vec3& boxMin, const glm::vec3& boxMax, glm::vec3& dir, float* outPenetration)
+bool SphereCollider::CollidingAABB(const glm::vec3& boxMin, const glm::vec3& boxMax, glm::vec3& dir, float outPenetration)
 {
 	// world-space sphere center
 	glm::vec3 sphereCenter = position + GetCenter();
@@ -65,14 +65,18 @@ bool SphereCollider::CollidingAABB(const glm::vec3& boxMin, const glm::vec3& box
 			float dist = std::sqrt(distSq);
 			// separation direction points from box to sphere (normalize delta)
 			dir = glm::normalize(delta);
-			if (outPenetration) *outPenetration = radius - dist;
-			return true;
+			if (outPenetration == radius - dist)
+			{
+				return true;
+			}
 		}
 
 		// not colliding
 		dir = glm::vec3(0.0f);
-		if (outPenetration) *outPenetration = 0.0f;
-		return false;
+		if (outPenetration == 0.0f)
+		{
+			return false;
+		}
 	}
 
 	// Case 2: sphere center is inside the AABB (closest == sphereCenter).
@@ -97,8 +101,9 @@ bool SphereCollider::CollidingAABB(const glm::vec3& boxMin, const glm::vec3& box
 
 		// penetration is radius plus how far inside the box we are to that face
 		float penetrationToFace = distToFace[axis];
-		if (outPenetration) *outPenetration = radius + penetrationToFace;
-
-		return true;
+		if (outPenetration = radius + penetrationToFace)
+		{
+			return true;
+		}
 	}
 }

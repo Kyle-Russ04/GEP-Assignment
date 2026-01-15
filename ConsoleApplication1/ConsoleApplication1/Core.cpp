@@ -7,6 +7,9 @@
 
 #include <random>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <direct.h>
 
 namespace ECS
 {
@@ -97,6 +100,26 @@ namespace ECS
 		auto meshRenderer = PlayerEntity->GetComponent<MeshRenderer>();
 		if (meshRenderer)
 		{
+			// Diagnostic: print working directory and check presence of files the engine will try to open.
+			char cwdBuf[1024];
+			if (_getcwd(cwdBuf, sizeof(cwdBuf)))
+			{
+				std::cout << "INFO: Current working directory: " << cwdBuf << std::endl;
+			}
+			auto exists = [](const std::string& p) -> bool { std::ifstream f(p); return f.good(); };
+
+			std::vector<std::string> checkPaths = {
+				"low-poly-rat/rattri.obj",
+				"low-poly-rat/rat_low_lambert1_BaseMap.bmp",
+				"vertex.txt",
+				"fragment.txt"
+			};
+			for (const auto& p : checkPaths)
+			{
+				std::cout << "INFO: Checking file: " << p << " -> " << (exists(p) ? "FOUND" : "MISSING") << std::endl;
+			}
+
+			// existing behaviour
 			meshRenderer->OnLoadMesh("low-poly-rat/rattri.obj");
 			meshRenderer->SetTexturePath("low-poly-rat/rat_low_lambert1_BaseMap.bmp");
 			meshRenderer->SetVertexShaderPath("vertex.txt");
@@ -211,8 +234,14 @@ namespace ECS
 					{
 						playerHud->score += 1;
 					}
-					if (WallCollider->CollidingAABB(glm::vec3(WallTransform->GetPosition().x-WallCollider->_radius, WallTransform->GetPosition().y, WallTransform->GetPosition().z),
-						glm::vec3(WallTransform->GetPosition().x - WallCollider->_radius, WallTransform->GetPosition().y, WallTransform->GetPosition().z), )
+					glm::vec3 dir(0.0f);
+					if (WallCollider->CollidingAABB(glm::vec3(WallTransform->GetPosition().x - WallCollider->_radius, WallTransform->GetPosition().y, WallTransform->GetPosition().z),
+						glm::vec3(WallTransform->GetPosition().x - WallCollider->_radius, WallTransform->GetPosition().y, WallTransform->GetPosition().z), dir, 0.001f))
+					{
+						std::cout << "Collision Detected" << std::endl;
+						std::cout << "Final Score: " << playerHud->score << std::endl;
+						Stop();
+					}
 				}
 				else {
 					WallTransform->Translate(glm::vec3(0.1f, 0.0f, 0.0f));

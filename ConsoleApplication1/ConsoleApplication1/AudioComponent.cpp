@@ -2,13 +2,6 @@
 
 using namespace ECS;
 
-AudioComponent::AudioComponent()
-{
-}
-
-AudioComponent::~AudioComponent()
-{
-}
 
 void AudioComponent::InitialiseInstance()
 {

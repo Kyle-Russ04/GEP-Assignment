@@ -12,8 +12,6 @@ namespace ECS
 	//this is for background music
 	struct Audio : Component
 	{
-		Audio();
-		~Audio();
 
 		void InitialiseInstance(const std::string filepath);
 		void PlaySound();
