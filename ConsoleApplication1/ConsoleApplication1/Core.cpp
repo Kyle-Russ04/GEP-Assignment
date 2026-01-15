@@ -3,6 +3,10 @@
 #include "MeshRenderer.h"
 #include "Audio.h"
 #include "HUD.h"
+#include "SphereCollider.h"
+
+#include <random>
+#include <algorithm>
 
 namespace ECS
 {
@@ -33,7 +37,7 @@ namespace ECS
 
 
 
-	void Core::Start(std::shared_ptr <ECS::Entity> PlayerEntity, std::shared_ptr <ECS::Entity> AudioEntity)
+	void Core::Start(std::shared_ptr <ECS::Entity> PlayerEntity, std::shared_ptr <ECS::Entity> AudioEntity, std::vector <std::shared_ptr <ECS::Entity> > Walls)
 	{
 		//initialise window and OpenGL context
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -94,20 +98,59 @@ namespace ECS
 		if (meshRenderer)
 		{
 			meshRenderer->OnLoadMesh("low-poly-rat/rattri.obj");
+			meshRenderer->SetTexturePath("low-poly-rat/rat_low_lambert1_BaseMap.bmp");
+			meshRenderer->SetVertexShaderPath("vertex.txt");
+			meshRenderer->SetFragmentShaderPath("fragment.txt");
+		}
+		auto transform = PlayerEntity->GetComponent<Transform>();
+		if (transform)
+		{
+			transform->SetPosition(glm::vec3(4.0f, -1.0f, -10.0f));
 		}
 
 		auto audioComp = AudioEntity->GetComponent<Audio>();
 		if (audioComp)
 		{
-			audioComp->InitialiseInstance();
-			audioComp->PlaySound("");
+			audioComp->InitialiseInstance("BattleIntro.wav");
+			audioComp->PlaySound();
 		}
 		auto playerHud = PlayerEntity->GetComponent<HUD>();
 		if (playerHud)
 		{
-			playerHud->renderer = renderer;
-			playerHud->Initialise();
+			playerHud->Load_Font();
+
 		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			auto WallMesh = Walls[i]->GetComponent<MeshRenderer>();
+			WallMesh->OnLoadMesh("model_model/model.obj");
+			WallMesh->SetTexturePath("model_model/Material__32_albedo.bmp");
+
+			auto WallTransform = Walls[i]->GetComponent<Transform>();
+			switch (i)
+			{
+			case 1:
+				WallTransform->SetPosition(glm::vec3(-1.0f, -2.0f, -10.0f));
+				break;
+			case 2:
+				WallTransform->SetPosition(glm::vec3(-1.0f, 2.0f, -10.0f));
+				break;
+			case 3:
+				WallTransform->SetPosition(glm::vec3(-5.0f, -2.0f, -10.0f));
+				break;
+			case 4:
+				WallTransform->SetPosition(glm::vec3(-5.0f, 2.0f, -10.0f));
+				break;
+			}
+		}
+		
+		// Random generator for when walls respawn
+		static std::default_random_engine rng(static_cast<unsigned>(std::random_device{}()));
+		// Slight random offset each time walls are repositioned
+		std::uniform_real_distribution<float> yOffsetDist(-0.6f, 0.6f);
+		const float minY = -3.5f; 
+		const float maxY = 3.5f;
 
 		isRunning = true;
 		//main game loop
@@ -132,19 +175,64 @@ namespace ECS
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			playerHud->DisplayScore();
+			
 
+			for (int i = 0; i < 4; i++)
+			{
+				auto WallTransform = Walls[i]->GetComponent<Transform>();
+				auto WallCollider = Walls[i]->GetComponent<SphereCollider>();
+				if (WallTransform->GetPosition().x > 8.0f)
+				{
+					// determine the paired wall index (0&1, 2&3)
+					int otherIndex = (i % 2 == 0) ? (i + 1) : (i - 1);
 
+					// compute a small random vertical offset that will be applied to both walls
+					float yOffset = yOffsetDist(rng);
+
+					// apply offset to both walls in the pair and clamp within bounds
+					auto t0 = Walls[i]->GetComponent<Transform>();
+					auto t1 = Walls[otherIndex]->GetComponent<Transform>();
+
+					glm::vec3 pos0 = t0->GetPosition();
+					glm::vec3 pos1 = t1->GetPosition();
+
+					pos0.y = std::max(minY, std::min(maxY, pos0.y + yOffset));
+					pos1.y = std::max(minY, std::min(maxY, pos1.y + yOffset));
+
+					// reset X for the wall that wrapped and keep the same Z
+					// choose reset X based on original design (-1.0f for first column, -5.0f for second)
+					float resetX = (i < 2) ? -1.0f : -5.0f;
+
+					t0->SetPosition(glm::vec3(resetX, pos0.y, pos0.z));
+					t1->SetPosition(glm::vec3(t1->GetPosition().x, pos1.y, t1->GetPosition().z));
+
+					
+					if (i == 1 || i == 3)
+					{
+						playerHud->score += 1;
+					}
+					if (WallCollider->CollidingAABB(glm::vec3(WallTransform->GetPosition().x-WallCollider->_radius, WallTransform->GetPosition().y, WallTransform->GetPosition().z),
+						glm::vec3(WallTransform->GetPosition().x - WallCollider->_radius, WallTransform->GetPosition().y, WallTransform->GetPosition().z), )
+				}
+				else {
+					WallTransform->Translate(glm::vec3(0.1f, 0.0f, 0.0f));
+				}
+			}
 			////update entities
 			for (Entity* entity : m_entities)
 			{
 				entity->Update(0.0f); //placeholder deltaTime
-
 				entity->Draw();
 			}
-			
+			if (playerHud)
+			{
+				std::stringstream ss;
+				ss << "Score: " << playerHud->score;
+				playerHud->Render_Text(ss.str(), 25.0f, 25.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+			}
 			// Swap the buffers to display the current rendered frame
 			SDL_GL_SwapWindow(m_window);
+			
 		}
 	}
 	void Core::Stop()

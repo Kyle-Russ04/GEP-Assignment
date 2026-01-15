@@ -15,9 +15,9 @@ namespace ECS
 		Audio();
 		~Audio();
 
-		void InitialiseInstance();
-		void PlaySound(const std::string filePath);
-		void StopSound(const std::string filePath);
+		void InitialiseInstance(const std::string filepath);
+		void PlaySound();
+		void StopSound();
 
 
 		//data

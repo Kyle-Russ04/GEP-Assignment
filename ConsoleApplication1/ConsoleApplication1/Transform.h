@@ -10,6 +10,7 @@ namespace ECS
 		void OnInitialise();
 		void Translate(const glm::vec3& delta);
 		glm::vec3 GetPosition();
+		void SetPosition(const glm::vec3& position) { _position = position; }
 
 	private:
 		glm::vec3 _position;

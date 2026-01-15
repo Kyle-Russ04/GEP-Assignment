@@ -36,17 +36,23 @@ void MeshRenderer::Draw()
 	if (!_material)
 	{
 		_material = std::make_unique<ECS::Material>();
-		const std::string vertPath = "Shaders/ShaderText.txt";
-		const std::string fragPath = "Shaders/fragment.txt";
+
 		if (!_material->LoadShaders(vertPath, fragPath))
 		{
 			std::cerr << "ERROR: Could not find material for MeshRenderer" << std::endl;
 			return;
 		}
-		_material->SetDiffuseColour(glm::vec3(0.8f, 0.8f, 0.8f));
-		_material->SetEmissiveColour(glm::vec3(0.0f));
-		_material->SetSpecularColour(glm::vec3(0.2f));
+		//_material->SetDiffuseColour(glm::vec3(0.8f, 0.8f, 0.8f));
+		//_material->SetEmissiveColour(glm::vec3(0.0f));
+		//_material->SetSpecularColour(glm::vec3(0.2f));
 	}
+
+	unsigned int textureID = _material->LoadTexture(texturePath);
+	if (textureID != 0)
+	{
+		_material->_texture1 = textureID;
+	}
+
 
 	glm::mat4 modelMatrix = glm::mat4(1.0f); // Identity matrix as placeholder
 
@@ -100,4 +106,19 @@ void MeshRenderer::Draw()
 	{
 		_mesh->Draw();
 	}
+}
+
+void MeshRenderer::SetTexturePath(std::string _textpath)
+{
+	texturePath = _textpath;
+}
+
+void MeshRenderer::SetVertexShaderPath(std::string _vertpath)
+{
+	vertPath = _vertpath;
+}
+
+void MeshRenderer::SetFragmentShaderPath(std::string _fragpath)
+{
+	fragPath = _fragpath;
 }

@@ -13,7 +13,8 @@ namespace ECS
 
 		glm::vec3 GetCenter();
 
-	private:
+		bool CollidingAABB(const glm::vec3& boxMin, const glm::vec3& boxMax, glm::vec3& dir, float* outPenetration = nullptr);
+
 		float _radius;
 		glm::vec3 _center;
 		glm::vec3 _offset;

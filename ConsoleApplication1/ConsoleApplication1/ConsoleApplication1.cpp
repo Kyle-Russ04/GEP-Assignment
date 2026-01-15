@@ -30,10 +30,12 @@
 #include "Audio.h"
 #include "AudioComponent.h"
 #include "HUD.h"
+#include <vector>
 
 int main(int argc, char* argv[])
 {
 	std::shared_ptr<ECS::Core> core = ECS::Core::Initialise();
+	std::vector <std::shared_ptr<ECS::Entity> > Walls;
 
 	//entity 1 - player
 	std::shared_ptr<ECS::Entity> PlayerEntity = core->AddEntity();
@@ -50,13 +52,39 @@ int main(int argc, char* argv[])
 	std::shared_ptr<ECS::Entity> AudioEntity = core->AddEntity();
 	std::shared_ptr<ECS::Component> audioCompBackground = AudioEntity->AddComponent<ECS::Audio>();
 
+	//entity 3 - Wall 1
+	std::shared_ptr<ECS::Entity> Wall1 = core->AddEntity();
+	std::shared_ptr<ECS::Component> WMesh1 = Wall1->AddComponent<ECS::MeshRenderer>();
+	std::shared_ptr<ECS::Component> WTransform1 = Wall1->AddComponent<ECS::Transform>();
+	std::shared_ptr<ECS::Component> WCollider1 = Wall1->AddComponent<ECS::SphereCollider>();
+	Walls.push_back(Wall1);
 
-	
+	//entity 4 - Wall 2
+	std::shared_ptr<ECS::Entity> Wall2 = core->AddEntity();
+	std::shared_ptr<ECS::Component> WMesh2 = Wall2->AddComponent<ECS::MeshRenderer>();
+	std::shared_ptr<ECS::Component> WTransform2 = Wall2->AddComponent<ECS::Transform>();
+	std::shared_ptr<ECS::Component> WCollider2 = Wall2->AddComponent<ECS::SphereCollider>();
+	Walls.push_back(Wall2);
+
+	//entity 5 - Wall 3
+	std::shared_ptr<ECS::Entity> Wall3 = core->AddEntity();
+	std::shared_ptr<ECS::Component> WMesh3 = Wall3->AddComponent<ECS::MeshRenderer>();
+	std::shared_ptr<ECS::Component> WTransform3 = Wall3->AddComponent<ECS::Transform>();
+	std::shared_ptr<ECS::Component> WCollider3 = Wall3->AddComponent<ECS::SphereCollider>();
+	Walls.push_back(Wall3);
+
+	//entity 6 - Wall 4
+	std::shared_ptr<ECS::Entity> Wall4 = core->AddEntity();
+	std::shared_ptr<ECS::Component> WMesh4 = Wall4->AddComponent<ECS::MeshRenderer>();
+	std::shared_ptr<ECS::Component> WTransform4 = Wall4->AddComponent<ECS::Transform>();
+	std::shared_ptr<ECS::Component> WCollider4 = Wall4->AddComponent<ECS::SphereCollider>();
+	Walls.push_back(Wall4);
+
 	//initialise resources ie. mesh and material
 	ECS::ResourceManager resourceManager;
 
 	//start core loop
-	core->Start(PlayerEntity, AudioEntity);
+	core->Start(PlayerEntity, AudioEntity, Walls);
 
 	if (core->isRunning == false)
 	{

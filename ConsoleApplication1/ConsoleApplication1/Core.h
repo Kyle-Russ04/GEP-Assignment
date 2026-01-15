@@ -33,7 +33,7 @@ namespace ECS
 		//static void Init();
 		static std::shared_ptr<Core> Initialise();
 		
-		void Start(std::shared_ptr <ECS::Entity> PlayerEntity, std::shared_ptr <ECS::Entity> AudioEntity);
+		void Start(std::shared_ptr <ECS::Entity> PlayerEntity, std::shared_ptr <ECS::Entity> AudioEntity, std::vector <std::shared_ptr <ECS::Entity> > Walls);
 		void Stop();
 
 		std::shared_ptr<Entity> AddEntity();

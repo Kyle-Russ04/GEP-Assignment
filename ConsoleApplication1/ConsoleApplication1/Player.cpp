@@ -14,15 +14,13 @@ void Player::OnUpdate(float deltaTime)
 // This ensures movement stops when the key is released.
 	if (inputSystem->GetKeyState(SDL_SCANCODE_W))
 	{
-		playerTransform->Translate(glm::vec3(0.0f, 0.0f, -0.1f));
-		std::cout << "W key pressed" << std::endl;
+		playerTransform->Translate(glm::vec3(0.0f, 0.1f, 0.0f));
 	}
 	if (inputSystem->GetKeyState(SDL_SCANCODE_S))
 	{
-		playerTransform->Translate(glm::vec3(0.0f, 0.0f, 0.1f));
-		std::cout << "S key pressed" << std::endl;
+		playerTransform->Translate(glm::vec3(0.0f, -0.1f, 0.0f));
 	}
-	if (inputSystem->GetKeyState(SDL_SCANCODE_A))
+	/*if (inputSystem->GetKeyState(SDL_SCANCODE_A))
 	{
 		playerTransform->Translate(glm::vec3(-0.1f, 0.0f, 0.0f));
 		std::cout << "A key pressed" << std::endl;
@@ -31,14 +29,6 @@ void Player::OnUpdate(float deltaTime)
 	{
 		playerTransform->Translate(glm::vec3(0.1f, 0.0f, 0.0f));
 		std::cout << "D key pressed" << std::endl;
-	}
+	}*/
 
-    // Player-specific update logic
-    //std::cout << "Ticking Player Component. . ." << m_count << std::endl;
-    //m_count++;
-
-    if (m_count >= 10)
-    {
-        //GetEntity()->Kill();
-    }
 }
